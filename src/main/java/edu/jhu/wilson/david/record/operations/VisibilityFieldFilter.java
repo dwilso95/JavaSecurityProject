@@ -3,13 +3,22 @@ package edu.jhu.wilson.david.record.operations;
 import java.util.Iterator;
 import java.util.Set;
 
-import edu.jhu.wilson.david.record.Field;
-import edu.jhu.wilson.david.record.Record;
+import edu.jhu.wilson.david.record.model.Field;
+import edu.jhu.wilson.david.record.model.Record;
 
+/**
+ * {@link FieldFilter} implementation which removes {@link Field}s which do not
+ * have visibilities in the specified set
+ * 
+ */
 public class VisibilityFieldFilter implements FieldFilter {
 
 	private final Set<String> visibilities;
 
+	/**
+	 * @param visibilities
+	 *            - Visibilities to use in {@link #filterFields(Record)}
+	 */
 	public VisibilityFieldFilter(final Set<String> visibilities) {
 		this.visibilities = visibilities;
 	}

@@ -10,16 +10,25 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.InstanceCreator;
 import com.google.gson.stream.JsonReader;
 
-import edu.jhu.wilson.david.record.Field;
-import edu.jhu.wilson.david.record.Record;
-import edu.jhu.wilson.david.record.StandardField;
-import edu.jhu.wilson.david.record.StandardRecord;
+import edu.jhu.wilson.david.record.model.Field;
+import edu.jhu.wilson.david.record.model.Record;
+import edu.jhu.wilson.david.record.model.impl.StandardField;
+import edu.jhu.wilson.david.record.model.impl.StandardRecord;
 
-public class JSONRecordReader implements RecordReader, AutoCloseable {
+/**
+ * Reads {@link Record} serialized as JSON.
+ */
+public class JSONRecordReader implements RecordReader {
 
 	final Gson gson;
 	final JsonReader reader;
 
+	/**
+	 * Specifies {@link InputStream} from which to read JSON serialized
+	 * {@link Record}s
+	 * 
+	 * @param inputStream
+	 */
 	public JSONRecordReader(final InputStream inputStream) {
 		try {
 			this.reader = new JsonReader(new InputStreamReader(inputStream, "UTF-8"));
@@ -30,6 +39,7 @@ public class JSONRecordReader implements RecordReader, AutoCloseable {
 		}
 	}
 
+	@Override
 	public boolean hasNext() {
 		try {
 			return reader.hasNext();
@@ -38,22 +48,20 @@ public class JSONRecordReader implements RecordReader, AutoCloseable {
 		}
 	}
 
+	@Override
 	public Record next() {
 		return gson.fromJson(reader, StandardRecord.class);
 	}
 
 	@Override
-	public void close() {
-		try {
-			reader.close();
-		} catch (IOException e) {
-		}
+	public void close() throws IOException {
+		reader.close();
 	}
 
 	class FieldInstanceCreater implements InstanceCreator<Field> {
 
 		@Override
-		public Field createInstance(Type arg0) {
+		public Field createInstance(Type type) {
 			return new StandardField("", "", "");
 		}
 

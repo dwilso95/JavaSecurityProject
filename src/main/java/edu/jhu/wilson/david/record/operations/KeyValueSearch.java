@@ -3,8 +3,8 @@ package edu.jhu.wilson.david.record.operations;
 import java.util.Iterator;
 import java.util.List;
 
-import edu.jhu.wilson.david.record.Field;
-import edu.jhu.wilson.david.record.Record;
+import edu.jhu.wilson.david.record.model.Field;
+import edu.jhu.wilson.david.record.model.Record;
 
 public class KeyValueSearch {
 

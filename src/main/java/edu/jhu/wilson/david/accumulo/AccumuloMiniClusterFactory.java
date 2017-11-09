@@ -3,37 +3,50 @@ package edu.jhu.wilson.david.accumulo;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.accumulo.core.client.AccumuloException;
-import org.apache.accumulo.core.client.AccumuloSecurityException;
-import org.apache.accumulo.core.client.Connector;
-import org.apache.accumulo.core.client.Instance;
-import org.apache.accumulo.core.client.ZooKeeperInstance;
-import org.apache.accumulo.core.client.security.tokens.PasswordToken;
 import org.apache.accumulo.minicluster.MiniAccumuloCluster;
 import org.apache.accumulo.minicluster.MiniAccumuloConfig;
 
 import com.google.common.io.Files;
 
+/**
+ * Simple factory for creating {@link MiniAccumuloCluster} instances
+ * 
+ */
 public class AccumuloMiniClusterFactory {
 
+	/**
+	 * Private on purpose so this factory can be treated as a 'static class'
+	 */
 	private AccumuloMiniClusterFactory() {
 		// do nothing
 	}
 
-	public static MiniAccumuloCluster createCluster(String instanceName, byte[] password) {
-		File tempDir = Files.createTempDir();
+	/**
+	 * Creates a {@link MiniAccumuloCluster} instance using the provided
+	 * instance name and password. The instance uses a random directory
+	 * generated from {@link Files#createTempDir()}.
+	 * 
+	 * Use the default username 'root' to get a connector to the created
+	 * instance
+	 * 
+	 * @param instanceName
+	 *            - Name of instance to create
+	 * @param password
+	 *            - password to use for instance
+	 * @return a new {@link MiniAccumuloCluster}
+	 */
+	public static MiniAccumuloCluster createAccumulo(String instanceName, String password) {
+		final File tempDir = Files.createTempDir();
 
-		MiniAccumuloConfig config = new MiniAccumuloConfig(tempDir, new String(password)).setNumTservers(2)
+		final MiniAccumuloConfig config = new MiniAccumuloConfig(tempDir, password).setNumTservers(2)
 				.setInstanceName(instanceName);
 
 		try {
-			MiniAccumuloCluster accumulo = new MiniAccumuloCluster(config);
+			final MiniAccumuloCluster accumulo = new MiniAccumuloCluster(config);
 			accumulo.start();
-			Instance instance = new ZooKeeperInstance(instanceName, accumulo.getZooKeepers());
-			Connector conn = instance.getConnector("root", new PasswordToken(new String(password)));
-			System.out.println(conn.getInstance().getInstanceName());
 			return accumulo;
-		} catch (IOException | InterruptedException | AccumuloException | AccumuloSecurityException e) {
+		} catch (IOException | InterruptedException e) {
+			e.printStackTrace();
 			throw new RuntimeException("Unable to build accumulo instance");
 		}
 	}

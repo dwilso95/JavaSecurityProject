@@ -1,4 +1,6 @@
-package edu.jhu.wilson.david.record;
+package edu.jhu.wilson.david.record.model.impl;
+
+import edu.jhu.wilson.david.record.model.Field;
 
 public class StandardField implements Field {
 

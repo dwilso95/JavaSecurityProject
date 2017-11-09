@@ -1,9 +1,12 @@
-package edu.jhu.wilson.david.record;
+package edu.jhu.wilson.david.record.model.impl;
 
 import java.util.Iterator;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+
+import edu.jhu.wilson.david.record.model.Field;
+import edu.jhu.wilson.david.record.model.Record;
 
 public class StandardRecord implements Record {
 
