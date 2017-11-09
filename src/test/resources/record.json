@@ -1,0 +1,21 @@
+[
+	{
+		"fields": [
+			{
+				"Name": "Name",
+				"Value": "John",
+				"visibility": "XXXX"
+			},
+			{
+				"Name": "SSN",
+				"Value": "555-55-5555",
+				"visibility": "YYYY"
+			},
+			{
+				"Name": "DOB",
+				"Value": "1980-03-01T08:02:06.928Z",
+				"visibility": "YYYY"
+			}
+		]
+	}
+]
