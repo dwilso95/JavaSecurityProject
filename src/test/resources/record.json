@@ -2,18 +2,18 @@
 	{
 		"fields": [
 			{
-				"Name": "Name",
-				"Value": "John",
+				"name": "Name",
+				"value": "John",
 				"visibility": "XXXX"
 			},
 			{
-				"Name": "SSN",
-				"Value": "555-55-5555",
+				"name": "SSN",
+				"value": "555-55-5555",
 				"visibility": "YYYY"
 			},
 			{
-				"Name": "DOB",
-				"Value": "1980-03-01T08:02:06.928Z",
+				"name": "DOB",
+				"value": "1980-03-01T08:02:06.928Z",
 				"visibility": "YYYY"
 			}
 		]

@@ -11,9 +11,12 @@ import org.apache.accumulo.core.data.Mutation;
 import org.apache.accumulo.core.security.ColumnVisibility;
 
 import com.beust.jcommander.internal.Lists;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import edu.jhu.wilson.david.record.model.Field;
 import edu.jhu.wilson.david.record.model.Record;
+import edu.jhu.wilson.david.record.serialization.RecordJSONSerializer;
 import edu.jhu.wilson.david.record.serialization.RecordReader;
 
 /**
@@ -22,15 +25,16 @@ import edu.jhu.wilson.david.record.serialization.RecordReader;
  * 
  *
  */
-public class FileIngester {
+public class RecordReaderIngester {
 	private final Connector connector;
+	private final Gson gson = new GsonBuilder().registerTypeAdapter(Record.class, new RecordJSONSerializer()).create();
 
 	/**
 	 * Most basic constructor
 	 * 
 	 * @param connector
 	 */
-	public FileIngester(final Connector connector) {
+	public RecordReaderIngester(final Connector connector) {
 		this.connector = connector;
 	}
 
@@ -49,7 +53,9 @@ public class FileIngester {
 			while (recordReader.hasNext()) {
 				final Iterable<Mutation> mutations = buildMutations(recordReader.next());
 				batchWriter.addMutations(mutations);
+				batchWriter.flush();
 			}
+			batchWriter.close();
 		} catch (MutationsRejectedException e) {
 			throw new RuntimeException("Mutations rejected and could not be written");
 		}
@@ -66,10 +72,9 @@ public class FileIngester {
 		final List<Mutation> mutations = Lists.newArrayList();
 		for (final Field field : record.getFields()) {
 			final Mutation mutation = new Mutation(field.getValue());
-			mutation.put(field.getName(), "", new ColumnVisibility(field.getVisibility()), "");
+			mutation.put(field.getName(), "", new ColumnVisibility(field.getVisibility()), gson.toJson(record));
 			mutations.add(mutation);
 		}
-
 		return mutations;
 	}
 

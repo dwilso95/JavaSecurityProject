@@ -3,17 +3,12 @@ package edu.jhu.wilson.david.record.serialization;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Type;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.InstanceCreator;
 import com.google.gson.stream.JsonReader;
 
-import edu.jhu.wilson.david.record.model.Field;
 import edu.jhu.wilson.david.record.model.Record;
-import edu.jhu.wilson.david.record.model.impl.StandardField;
-import edu.jhu.wilson.david.record.model.impl.StandardRecord;
 
 /**
  * Reads {@link Record} serialized as JSON.
@@ -32,7 +27,7 @@ public class JSONRecordReader implements RecordReader {
 	public JSONRecordReader(final InputStream inputStream) {
 		try {
 			this.reader = new JsonReader(new InputStreamReader(inputStream, "UTF-8"));
-			this.gson = new GsonBuilder().registerTypeAdapter(Field.class, new FieldInstanceCreater()).create();
+			this.gson = new GsonBuilder().registerTypeAdapter(Record.class, new RecordJSONSerializer()).create();
 			reader.beginArray();
 		} catch (IOException e) {
 			throw new RuntimeException("Problem reading JSON input");
@@ -50,21 +45,11 @@ public class JSONRecordReader implements RecordReader {
 
 	@Override
 	public Record next() {
-		return gson.fromJson(reader, StandardRecord.class);
+		return gson.fromJson(reader, Record.class);
 	}
 
 	@Override
 	public void close() throws IOException {
 		reader.close();
 	}
-
-	class FieldInstanceCreater implements InstanceCreator<Field> {
-
-		@Override
-		public Field createInstance(Type type) {
-			return new StandardField("", "", "");
-		}
-
-	}
-
 }

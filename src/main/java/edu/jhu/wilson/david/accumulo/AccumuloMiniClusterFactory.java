@@ -26,7 +26,7 @@ public class AccumuloMiniClusterFactory {
 	 * instance name and password. The instance uses a random directory
 	 * generated from {@link Files#createTempDir()}.
 	 * 
-	 * Use the default username 'root' to get a connector to the created
+	 * Use the default user name 'root' to get a connector to the created
 	 * instance
 	 * 
 	 * @param instanceName
@@ -38,9 +38,8 @@ public class AccumuloMiniClusterFactory {
 	public static MiniAccumuloCluster createAccumulo(String instanceName, String password) {
 		final File tempDir = Files.createTempDir();
 
-		final MiniAccumuloConfig config = new MiniAccumuloConfig(tempDir, password).setNumTservers(2)
+		final MiniAccumuloConfig config = new MiniAccumuloConfig(tempDir, password).setNumTservers(1)
 				.setInstanceName(instanceName);
-
 		try {
 			final MiniAccumuloCluster accumulo = new MiniAccumuloCluster(config);
 			accumulo.start();
