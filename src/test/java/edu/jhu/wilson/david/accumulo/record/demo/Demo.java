@@ -1,4 +1,4 @@
-package edu.jhu.wilson.david.accumulo;
+package edu.jhu.wilson.david.accumulo.record.demo;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,6 +21,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import edu.jhu.wilson.david.accumulo.AccumuloMiniClusterFactory;
 import edu.jhu.wilson.david.accumulo.iterator.RecordFilterIterator;
 import edu.jhu.wilson.david.ingest.RecordReaderIngester;
 import edu.jhu.wilson.david.record.serialization.JSONRecordReader;

@@ -1,6 +1,7 @@
 package edu.jhu.wilson.david.ingest;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.accumulo.core.client.BatchWriter;
 import org.apache.accumulo.core.client.BatchWriterConfig;
@@ -72,7 +73,8 @@ public class RecordReaderIngester {
 		final List<Mutation> mutations = Lists.newArrayList();
 		for (final Field field : record.getFields()) {
 			final Mutation mutation = new Mutation(field.getValue());
-			mutation.put(field.getName(), "", new ColumnVisibility(field.getVisibility()), gson.toJson(record));
+			mutation.put(field.getName(), UUID.randomUUID().toString(), new ColumnVisibility(field.getVisibility()),
+					gson.toJson(record));
 			mutations.add(mutation);
 		}
 		return mutations;
