@@ -63,12 +63,12 @@ public class JSONRecordReaderTest {
 	@Test
 	public void generateJsonTestFiles() throws Exception {
 
-		for (int numJohn = 5; numJohn <= 50; numJohn = numJohn + 5) {
-			int total = 1000;
+		for (int numJohn = 0; numJohn <= 50; numJohn = numJohn + 5) {
+			int total = 10000;
 			int numNotJohn = total - numJohn;
 
 			try (final DataOutputStream out = new DataOutputStream(new BufferedOutputStream(
-					new FileOutputStream(new File(total + "records_" + numJohn + "Johns.json"))));) {
+					new FileOutputStream(new File("usecase_3_records_" + numJohn + ".json"))));) {
 
 				Gson gson = new GsonBuilder().registerTypeAdapter(Record.class, new RecordJSONSerializer()).create();
 				out.write("[\n".getBytes());
@@ -80,9 +80,9 @@ public class JSONRecordReaderTest {
 							ThreadLocalRandom.current().nextInt(1950, 2010) + "-"
 									+ months[ThreadLocalRandom.current().nextInt(0, 11)] + "-"
 									+ days[ThreadLocalRandom.current().nextInt(0, 27)],
-							"YYYY"));
+							"XXXX"));
 					r.addField(new StandardField("SSN", RandomStringUtils.randomNumeric(3) + "-"
-							+ RandomStringUtils.randomNumeric(2) + "-" + RandomStringUtils.randomNumeric(4), "YYYY"));
+							+ RandomStringUtils.randomNumeric(2) + "-" + RandomStringUtils.randomNumeric(4), "XXXX"));
 					out.write(gson.toJson(r).getBytes());
 					if (i + 1 < total) {
 						out.write(",".getBytes());

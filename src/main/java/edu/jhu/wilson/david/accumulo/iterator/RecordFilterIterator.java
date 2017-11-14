@@ -14,10 +14,15 @@ import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import edu.jhu.wilson.david.record.model.Field;
 import edu.jhu.wilson.david.record.model.Record;
 import edu.jhu.wilson.david.record.operations.VisibilityFieldFilter;
 import edu.jhu.wilson.david.record.serialization.RecordJSONSerializer;
 
+/**
+ * An iterator for filtering {@link Field}s in a {@link Record} before it is
+ * returned to the client.
+ */
 public class RecordFilterIterator extends WrappingIterator {
 
 	private Value topValue;
@@ -53,7 +58,10 @@ public class RecordFilterIterator extends WrappingIterator {
 		filter = new VisibilityFieldFilter(authSet);
 	}
 
-	protected void filterTopValue() {
+	/**
+	 * Filters the current "top" value
+	 */
+	private void filterTopValue() {
 		currentTopFiltered = true;
 		if (topValue != null && topValue.get() != null && filter != null) {
 			final Record record = gson.fromJson(new String(topValue.get()), Record.class);

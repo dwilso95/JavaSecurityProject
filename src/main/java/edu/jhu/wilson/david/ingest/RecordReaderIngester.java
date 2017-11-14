@@ -23,17 +23,17 @@ import edu.jhu.wilson.david.record.serialization.RecordReader;
 /**
  * Class to handle reading a file and writing its contents into an Accumulo
  * instance using a provided {@link Connector} and {@link RecordReader}
- * 
- *
  */
 public class RecordReaderIngester {
 	private final Connector connector;
 	private final Gson gson = new GsonBuilder().registerTypeAdapter(Record.class, new RecordJSONSerializer()).create();
 
 	/**
-	 * Most basic constructor
+	 * Constructor which requires an Accumulo connector in order to create a
+	 * batch writer
 	 * 
 	 * @param connector
+	 *            - {@link Connector}
 	 */
 	public RecordReaderIngester(final Connector connector) {
 		this.connector = connector;
