@@ -25,9 +25,10 @@ import edu.jhu.wilson.david.record.serialization.RecordJSONSerializer;
  */
 public class RecordFilterIterator extends WrappingIterator {
 
+	private static final Gson gson = new GsonBuilder().registerTypeAdapter(Record.class, new RecordJSONSerializer())
+			.create();
 	private Value topValue;
 	private boolean currentTopFiltered = false;
-	private Gson gson = new GsonBuilder().registerTypeAdapter(Record.class, new RecordJSONSerializer()).create();
 
 	private VisibilityFieldFilter filter;
 

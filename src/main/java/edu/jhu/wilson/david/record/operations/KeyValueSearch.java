@@ -17,17 +17,19 @@ public class KeyValueSearch {
 	}
 
 	public boolean containsFieldValuePair(String name, String value, Record record) {
+		applyFieldFilters(record);
+		if (filterRecord(record)) {
+			return false;
+		}
+
 		final Iterator<Field> iter = record.getFields().iterator();
 		while (iter.hasNext()) {
 			final Field field = iter.next();
-			applyFieldFilters(record);
-			if (filterRecord(record)) {
-				return false;
-			}
 			if (field.getName().equals(name) && field.getValue().equals(value)) {
 				return true;
 			}
 		}
+
 		return false;
 	}
 
